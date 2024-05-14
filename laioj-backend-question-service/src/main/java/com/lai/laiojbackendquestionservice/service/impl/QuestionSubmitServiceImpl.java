@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -89,10 +90,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         myMessageProducer.sendMessage("code_exchange","my_routingKey",String.valueOf(questionSubmitId));
         //CompletableFuture.runAsync() 是 Java 中
         // CompletableFuture 类的一个静态工厂方法，用于异步执行一个不带返回值的任务
-//        CompletableFuture.runAsync(() -> {
-//            //调用判题方法，传入提交题目的id
-//            judgeFeignClient.doJudge(questionSubmitId);
-//        });
+        CompletableFuture.runAsync(() -> {
+            //调用判题方法，传入提交题目的id
+            judgeFeignClient.doJudge(questionSubmitId);
+        });
         return questionSubmit.getId();
     }
 
