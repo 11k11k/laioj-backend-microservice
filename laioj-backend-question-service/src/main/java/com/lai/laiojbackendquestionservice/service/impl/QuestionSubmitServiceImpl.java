@@ -60,7 +60,7 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
      */
     @Override
     public long doQuestionSubmit(QuestionSubmitAddRequest questionSubmitAddRequest, User loginUser) {
-        //todo:校验编程语言是否合法
+
         String language = questionSubmitAddRequest.getLanguage();
         Long questionId = questionSubmitAddRequest.getQuestionId();
         QuestionSubmitLanguageEnum languageEnum = QuestionSubmitLanguageEnum.getEnumByValue(language);
@@ -87,12 +87,12 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         //执行判题服务
         Long questionSubmitId = questionSubmit.getId();
         //发送消息  相当于异步提交判题
-        myMessageProducer.sendMessage("code_exchange","my_routingKey",String.valueOf(questionSubmitId));
+//         myMessageProducer.sendMessage("code_exchange","my_routingKey",String.valueOf(questionSubmitId));
         //CompletableFuture.runAsync() 是 Java 中
-        // CompletableFuture 类的一个静态工厂方法，用于异步执行一个不带返回值的任务
-        CompletableFuture.runAsync(() -> {
-            //调用判题方法，传入提交题目的id
-            judgeFeignClient.doJudge(questionSubmitId);
+        // CompletableFuture 类的f一个静态工厂方法，用于异步执行一个不带返回值的任务
+      CompletableFuture.runAsync(() -> {
+           //调用判题方法，传入提交题目的id
+           judgeFeignClient.doJudge(questionSubmitId);
         });
         return questionSubmit.getId();
     }

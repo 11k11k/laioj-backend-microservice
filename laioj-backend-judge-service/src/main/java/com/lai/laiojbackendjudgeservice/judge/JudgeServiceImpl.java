@@ -34,7 +34,7 @@ public class JudgeServiceImpl implements JudgeService {
     private String type;
 
     @Resource
-    private JudgeManager judgeManager;
+    private JudgeManager    judgeManager;
     @Override
     public QuestionSubmit doJudge(long questionSubmitId) {
         /**
